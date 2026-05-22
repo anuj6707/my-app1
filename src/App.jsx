@@ -1,52 +1,37 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect } from 'react';
+import Login from './Login';
+import Quiz from './Quiz';
+import './App.css';
 
-// ─── COLORS ────────────────────────────────────────────────────────
-const C = {
-  x:"#f87171", y:"#4ade80", z:"#60a5fa",
-  vol:"#a78bfa", volWire:"#c4b5fd",
-  grid:"#1e293b", gridLine:"#334155",
-  bg:"#0f172a", panel:"#1e293b",
-  text:"#e2e8f0", muted:"#64748b", accent:"#7c3aed"
-};
+export default function App() {
+  const [currentUser, setCurrentUser] = useState(null);
 
-// ─── 3D MATH HELPERS ───────────────────────────────────────────────
-function mat4Multiply(a, b) {
-  const r = new Array(16).fill(0);
-  for (let i=0;i<4;i++) for (let j=0;j<4;j++)
-    for (let k=0;k<4;k++) r[i*4+j]+=a[i*4+k]*b[k*4+j];
-  return r;
+  useEffect(() => {
+    const user = localStorage.getItem('currentUser');
+    if (user) {
+      setCurrentUser(user);
+    }
+  }, []);
+
+  const handleLogin = (username) => {
+    setCurrentUser(username);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('currentUser');
+    setCurrentUser(null);
+  };
+
+  return (
+    <div className="app">
+      {!currentUser ? (
+        <Login onLogin={handleLogin} />
+      ) : (
+        <Quiz username={currentUser} onLogout={handleLogout} />
+      )}
+    </div>
+  );
 }
-function mat4Identity() { const m=new Array(16).fill(0); m[0]=m[5]=m[10]=m[15]=1; return m; }
-function mat4RotY(a) { const c=Math.cos(a),s=Math.sin(a),m=mat4Identity(); m[0]=c;m[2]=s;m[8]=-s;m[10]=c; return m; }
-function mat4RotX(a) { const c=Math.cos(a),s=Math.sin(a),m=mat4Identity(); m[5]=c;m[6]=-s;m[9]=s;m[10]=c; return m; }
-function transformPoint(m, [x,y,z]) {
-  return [
-    m[0]*x+m[4]*y+m[8]*z+m[12],
-    m[1]*x+m[5]*y+m[9]*z+m[13],
-    m[2]*x+m[6]*y+m[10]*z+m[14],
-  ];
-}
-function project(pt, W, H, zoom) {
-  const fov = zoom * Math.min(W,H) * 0.42;
-  const d = 7;
-  const f = fov / (d - pt[2]);
-  return [W/2 + pt[0]*f, H/2 - pt[1]*f];
-}
-
-// ─── LERP UTILITY ─────────────────────────────────────────────────
-function lerp(a, b, t) { return a + (b-a)*t; }
-
-// ─── MAIN APP ─────────────────────────────────────────────────────
-export default function CalcLab() {
-  const [activeTab, setActiveTab] = useState("visualizer");
-  const [chatOpen, setChatOpen] = useState(false);
-  const [chatInput, setChatInput] = useState("");
-  const [chatMsgs, setChatMsgs] = useState([
-    { role:"assistant", content:"Hi! I'm your AI Tutor for BSH22BS07. Ask me anything about multiple integrals!" }
-  ]);
-  const [chatLoading, setChatLoading] = useState(false);
-  const chatBottomRef = useRef(null);
-  useEffect(()=>{ chatBottomRef.current?.scrollIntoView({behavior:"smooth"}); },[chatMsgs]);
 
   const sendChat = async () => {
     if (!chatInput.trim()||chatLoading) return;

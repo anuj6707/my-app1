@@ -1,0 +1,281 @@
+.quiz-display {
+  max-width: 900px;
+  margin: 0 auto;
+  animation: slideUp 0.5s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.quiz-progress {
+  background: white;
+  padding: 15px 20px;
+  border-radius: 10px 10px 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.quiz-progress span {
+  color: #667eea;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.score-badge {
+  background: #667eea;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 14px;
+}
+
+.question-box {
+  background: white;
+  padding: 30px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid #eee;
+}
+
+.question-box h2 {
+  margin: 0;
+  color: #333;
+  font-size: 22px;
+  line-height: 1.6;
+}
+
+.options-container {
+  background: white;
+  padding: 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  width: 100%;
+  padding: 15px;
+  margin-bottom: 12px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-size: 16px;
+  text-align: left;
+  position: relative;
+}
+
+.option:hover {
+  border-color: #667eea;
+  background: #f8f9ff;
+}
+
+.option.selected {
+  border-color: #667eea;
+  background: #f0f4ff;
+  font-weight: 600;
+}
+
+.option.correct {
+  border-color: #2ecc71;
+  background: #eafaf1;
+}
+
+.option.incorrect {
+  border-color: #e74c3c;
+  background: #fadbd8;
+}
+
+.option:disabled {
+  cursor: not-allowed;
+}
+
+.option-letter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 35px;
+  height: 35px;
+  background: #667eea;
+  color: white;
+  border-radius: 50%;
+  font-weight: 600;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.option.correct .option-letter {
+  background: #2ecc71;
+}
+
+.option.incorrect .option-letter {
+  background: #e74c3c;
+}
+
+.option-text {
+  flex: 1;
+}
+
+.check-icon,
+.cross-icon {
+  font-size: 20px;
+  margin-left: auto;
+}
+
+.check-icon {
+  color: #2ecc71;
+}
+
+.cross-icon {
+  color: #e74c3c;
+}
+
+.feedback {
+  padding: 20px;
+  border-radius: 8px;
+  margin: 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  font-size: 16px;
+  font-weight: 600;
+  animation: slideDown 0.4s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.correct-feedback {
+  background: #eafaf1;
+  color: #2ecc71;
+  border: 2px solid #2ecc71;
+}
+
+.incorrect-feedback {
+  background: #fadbd8;
+  color: #e74c3c;
+  border: 2px solid #e74c3c;
+}
+
+.emoji {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.loading-exp {
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: 10px;
+  font-style: italic;
+}
+
+.explanation {
+  font-size: 14px;
+  margin-top: 10px;
+  line-height: 1.5;
+}
+
+.button-group {
+  display: flex;
+  gap: 15px;
+  padding: 20px;
+  background: white;
+  border-radius: 0 0 10px 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn-submit-answer,
+.btn-next,
+.btn-end {
+  padding: 12px 30px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-width: 140px;
+}
+
+.btn-submit-answer {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.btn-submit-answer:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+}
+
+.btn-next {
+  background: #2ecc71;
+  color: white;
+}
+
+.btn-next:hover {
+  background: #27ae60;
+  transform: translateY(-2px);
+}
+
+.btn-end {
+  background: #e74c3c;
+  color: white;
+}
+
+.btn-end:hover {
+  background: #c0392b;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 600px) {
+  .question-box {
+    padding: 20px;
+  }
+
+  .question-box h2 {
+    font-size: 18px;
+  }
+
+  .option {
+    padding: 12px;
+    margin-bottom: 10px;
+    font-size: 14px;
+  }
+
+  .option-letter {
+    min-width: 30px;
+    height: 30px;
+    font-size: 12px;
+  }
+
+  .button-group {
+    flex-direction: column;
+  }
+
+  .btn-submit-answer,
+  .btn-next,
+  .btn-end {
+    width: 100%;
+  }
+}
