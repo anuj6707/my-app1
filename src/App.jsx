@@ -33,41 +33,6 @@ export default function App() {
   );
 }
 
-  const sendChat = async () => {
-    if (!chatInput.trim()||chatLoading) return;
-    const userMsg={role:"user",content:chatInput};
-    const next=[...chatMsgs,userMsg];
-    setChatMsgs(next); setChatInput(""); setChatLoading(true);
-    try {
-      const res=await fetch("https://api.anthropic.com/v1/messages",{
-        method:"POST",headers:{"Content-Type":"application/json","x-api-key":process.env.REACT_APP_ANTHROPIC_KEY||""},
-        body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:800,
-          system:"You are a concise math tutor for BSH22BS07 Multivariate Calculus (PCCOE, Pune University). Focus on double/triple integrals, coordinate systems, volume. Be short and clear.",
-          messages:next.map(m=>({role:m.role,content:m.content}))})
-      });
-      const data=await res.json();
-      setChatMsgs(p=>[...p,{role:"assistant",content:data.content?.[0]?.text||"Sorry, try again."}]);
-    } catch { setChatMsgs(p=>[...p,{role:"assistant",content:"Connection error."}]); }
-    setChatLoading(false);
-  };
-
-  const TABS=["Visualizer","Theory","Practice"];
-
-  return (
-    <div style={{minHeight:"100vh",background:"#0f172a",color:C.text,fontFamily:"'Segoe UI',sans-serif",display:"flex",flexDirection:"column"}}>
-      <style>{`
-        @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-        @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
-        @keyframes dot{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
-        button:focus{outline:none;}
-        input[type=range]{-webkit-appearance:none;appearance:none;height:5px;border-radius:9999px;cursor:pointer;}
-        input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:#fff;box-shadow:0 0 0 3px rgba(167,139,250,0.45);cursor:pointer;}
-        .tab-btn{padding:8px 18px;border-radius:8px;border:none;cursor:pointer;font-size:13px;font-weight:600;transition:all 0.18s;}
-        .theory-pre{white-space:pre-line;font-size:13px;line-height:1.85;color:#94a3b8;margin:0;}
-      `}</style>
-
-      {/* ── Top Nav ── */}
-      <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"12px 28px",borderBottom:"1px solid #1e293b",background:"rgba(15,23,42,0.95)",backdropFilter:"blur(8px)",position:"sticky",top:0,zIndex:50}}>
         <div>
           <span style={{fontSize:18,fontWeight:800,color:"#a78bfa",letterSpacing:-0.5}}>CalcLab 3D</span>
           <span style={{fontSize:10,color:"#475569",marginLeft:10}}>BSH22BS07 · PCCOE · AY 2025-26</span>
